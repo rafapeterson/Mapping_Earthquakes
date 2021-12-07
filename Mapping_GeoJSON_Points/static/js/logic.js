@@ -1,7 +1,7 @@
 // Add console.log to check to see if code is working.
 console.log("working");
 // Create the map object with a center at SFO.
-let map = L.map('mapid').setView([37.5, -122.5], 10);
+let map = L.map('mapid').setView([30, 30], 2);
 
 // Add GeoJSON data.
 let sanFranAirport =
@@ -34,13 +34,13 @@ let sanFranAirport =
 // }).addTo(map);
 
 // Grabbing our GeoJSON data w/ onEach
-L.geoJson(sanFranAirport, {
-    onEachFeature: function(feature, layer) {
-        console.log(layer);
-        layer.bindPopup("<h2>" + "Airport code: " + feature.properties.faa + "</h2>" + "<hr>" + "Airport Name: " + feature.properties.name + "</h2>");
+// L.geoJson(sanFranAirport, {
+//     onEachFeature: function(feature, layer) {
+//         console.log(layer);
+//         layer.bindPopup("<h2>" + "Airport code: " + feature.properties.faa + "</h2>" + "<hr>" + "Airport Name: " + feature.properties.name + "</h2>");
 
-    }
-}).addTo(map);
+//     }
+// }).addTo(map);
 
 //tile layer that'll be the background of the map
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -52,3 +52,21 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
     accessToken: API_KEY
 });
 streets.addTo(map);
+
+// Accessing the airport GEOJSON URL
+let airportData = "https://raw.githubusercontent.com/rafapeterson/Mapping_Earthquakes/Mapping_GeoJSON_Points/majorAirports.json";
+
+// Grabbing our GeoJSON data w/ onEach
+ d3.json(airportData, {
+     
+ }).then(function(data) {
+     console.log(data);
+     // Creating a GeoJSON layer with the retrieved data.
+     // from https://gis.stackexchange.com/questions/183725/leaflet-pop-up-does-not-work-with-geojson-data
+     L.geoJSON(data, {
+        onEachFeature: function(feature, layer){
+            console.log(layer);
+            layer.bindPopup("<h2>" + "Airport Code: " + feature.properties.faa +  "<hr>" + "Airport Name: " + feature.properties.name + "</h2>");
+        }
+     }).addTo(map);
+ });
