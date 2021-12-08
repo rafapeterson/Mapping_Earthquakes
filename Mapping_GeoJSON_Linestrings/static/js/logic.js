@@ -133,7 +133,7 @@ let myStyle = {
     color: "#ffffa1",
     weight: 2
 }
-
+}
 // d3.json(airportData).then(function(data) {
 //     console.log(data);
 //     // Creating a GeoJSON layer with the retrieved data.
